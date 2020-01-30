@@ -50,7 +50,39 @@ def shell_sort(data):
 
 
 def merge_cost(data):
-    raise NotImplementedError
+    data_len = data.shape[0]
+    data_tmp = data.copy()
+    interval = 1
+    while interval < data_len:
+        for start in range(0, data_len, interval * 2):
+            low = start
+            mid = min(start + interval, data_len)
+            end = min(start + 2 * interval, data_len)
+            point_left = low
+            point_right = mid
+            while point_left < mid and point_right < end:
+                if data[point_left] < data[point_right]:
+                    data_tmp[low] = data[point_left]
+                    point_left += 1
+                else:
+                    data_tmp[low] = data[point_right]
+                    point_right += 1
+                low += 1
+
+            while point_left < mid:
+                data_tmp[low] = data[point_left]
+                point_left += 1
+                low += 1
+
+            while point_right < end:
+                data_tmp[low] = data[point_right]
+                point_right += 1
+                low += 1
+
+        data = data_tmp.copy()
+        interval *= 2
+
+        yield data
 
 
 def quick_sort(data):
@@ -61,7 +93,7 @@ if __name__ == "__main__":
     import numpy as np
 
     data = np.array([0, 1, 2, -1, -5, -3, 5, 2, 7])
-    res = shell_sort(data)
+    res = merge_cost(data)
     print(data)
     for each in res:
         print(each)
