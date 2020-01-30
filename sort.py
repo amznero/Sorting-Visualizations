@@ -86,14 +86,34 @@ def merge_cost(data):
 
 
 def quick_sort(data):
-    raise NotImplementedError
+    data_len = data.shape[0]
+    range_stack = [range(0, data_len)]
+    while range_stack:
+        unsort_range = range_stack.pop()
+        if len(unsort_range) <= 1:
+            continue
+        start, end = unsort_range[0], unsort_range[-1]
+        left, right = start+1, end
+        anchor = data[start]
+        while left < right:
+            while left < right and data[right] >= anchor:
+                right -= 1
+            while left < right and data[left] < anchor:
+                left += 1
+            data[left], data[right] = data[right], data[left]
+        if data[left] < data[start]:
+            data[left], data[start] = data[start], data[left]
+
+        yield data
+        range_stack.append(range(start, left))
+        range_stack.append(range(left + 1, end + 1))
 
 
 if __name__ == "__main__":
     import numpy as np
 
     data = np.array([0, 1, 2, -1, -5, -3, 5, 2, 7])
-    res = merge_cost(data)
+    res = quick_sort(data)
     print(data)
     for each in res:
         print(each)
