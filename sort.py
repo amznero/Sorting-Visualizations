@@ -23,7 +23,7 @@ def insertion_sort(data):
     for i in range(1, data_len):
         anchor = data[i]
         j = i - 1
-        while anchor < data[j] and j >= 0:
+        while j >= 0 and anchor < data[j]:
             data[j + 1] = data[j]
             j -= 1
             yield data
