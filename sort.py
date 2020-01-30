@@ -32,7 +32,21 @@ def insertion_sort(data):
 
 
 def shell_sort(data):
-    raise NotImplementedError
+    data_len = data.shape[0]
+    groups = data_len // 2
+    while groups != 0:
+        for group_idx in range(groups):
+            # group insertion sort
+            for i in range(group_idx + groups, data_len, groups):
+                anchor = data[i]
+                j = i - groups
+                while j >= group_idx and anchor < data[j]:
+                    data[j + groups] = data[j]
+                    j -= groups
+                    yield data
+                data[j + groups] = anchor
+                yield data
+        groups //= 2
 
 
 def merge_cost(data):
@@ -47,7 +61,7 @@ if __name__ == "__main__":
     import numpy as np
 
     data = np.array([0, 1, 2, -1, -5, -3, 5, 2, 7])
-    res = bubble_sort(data)
+    res = shell_sort(data)
     print(data)
     for each in res:
         print(each)
